@@ -1,19 +1,22 @@
+from datetime import date
+
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
-from .forms import UserRegistrationForm
+from .forms import UserCustomForm
 
 
 def register_view(request):
     if request.method == 'POST':
-        form = UserRegistrationForm(request.POST)
+        form = UserCustomForm(request.POST)
         if form.is_valid():
             form.save()
 
             return redirect('users:login')
     else:
-        form = UserRegistrationForm()
+        form = UserCustomForm()
     return render(
         request, 'users/registration.html', {'form': form}
     )
@@ -35,3 +38,30 @@ def logout_view(request):
     logout(request)
     return redirect('users:login')
 
+
+@login_required
+def user_detail(request):
+    user = request.user
+    age = None
+
+    if user.date_of_birth:
+        today = date.today()
+        age = (
+                today.year - user.date_of_birth.year -
+               ((today.month, today.day) < (user.date_of_birth.month,
+                                            user.date_of_birth.day))
+        )
+
+    if request.method == 'POST':
+        form = UserCustomForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('users:user_detail')
+    else:
+        form = UserCustomForm(instance=user)
+
+    return render(request, 'users/user_detail.html', {
+        'form': form,
+        'age': age,
+        'is_detail_view': True
+    })

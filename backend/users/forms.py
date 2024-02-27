@@ -4,7 +4,7 @@ from django.core.validators import RegexValidator
 from .models import User
 
 
-class UserRegistrationForm(forms.ModelForm):
+class UserCustomForm(forms.ModelForm):
     '''
     форма для создания и обновления пользователя
     '''
@@ -43,9 +43,3 @@ class UserRegistrationForm(forms.ModelForm):
         if commit:
             user.save()
         return user
-
-
-# class LoginForm(forms.ModelForm):
-#     class Meta:
-#         model = User
-#         fields = ('username', 'password')
