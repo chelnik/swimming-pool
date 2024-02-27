@@ -1,12 +1,22 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="container">
-        <h2>Занятия</h2>
-        <ul>
-            {% for review in reviews %}
-
-            {% endfor %}
-        </ul>
-    </div>
+<div class="container">
+    <h2>Занятия</h2>
+    {% if lessons %}
+    <ul>
+        {% for lesson in lessons %}
+        <li>
+            <strong>Название:</strong> <a href="{% url 'pool_app:lesson_detail' pk=lesson.pk %}">{{ lesson.title }}</a><br>
+            <strong>Инструктор:</strong> {{ lesson.instructor.user.get_full_name }}<br>
+            <strong>Время начала:</strong> {{ lesson.start_time|date:"d.m.Y H:i" }}<br>
+            <strong>Время окончания:</strong> {{ lesson.end_time|date:"d.m.Y H:i" }}<br>
+            <strong>Описание:</strong> {{ lesson.description|truncatewords:20 }}<br>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Занятий пока нет.</p>
+    {% endif %}
+</div>
 {% endblock %}

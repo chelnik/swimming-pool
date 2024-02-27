@@ -10,26 +10,26 @@ def index(request):
 
 
 def instructor_review_list(request):
+    reviews = InstructorReview.objects.all()
+    return render(request, 'pool_app/instructor_review_list.html',
+                  {'reviews': reviews})
+
+
+def review_list(request):
     if request.method == 'POST':
-        form = InstructorReviewForm(request.POST)
+        form = PoolReviewForm(request.POST)
         if form.is_valid():
             review = form.save(commit=False)
             review.author = request.user
             review.save()
-            return redirect('pool_app:instructor_review_list')
+            return redirect('pool_app:review_list')
     else:
         form = InstructorReviewForm()
-    reviews = InstructorReview.objects.all()
-    return render(request, 'pool_app/instructor_review_list.html', {
+    reviews = PoolReview.objects.all()
+    return render(request, 'pool_app/review_list.html', {
         'reviews': reviews,
         'form': form,
     })
-
-
-def review_list(request):
-    reviews = PoolReview.objects.all()
-    return render(request, 'pool_app/review_list.html',
-                  {'reviews': reviews})
 
 
 def instructor_list(request):
@@ -66,7 +66,7 @@ def add_instructor_review(request, instructor_id):
             review.instructor = instructor
             review.author = request.user
             review.save()
-            return redirect('instructor_detail', pk=instructor.id)
+            return redirect('pool_app:instructor_detail', pk=instructor.id)
     else:
         form = InstructorReviewForm()
     return render(request, 'pool_app/add_instructor_review.html',
