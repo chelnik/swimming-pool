@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <h2 class="mb-4">Форма регистрации</h2>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-group mb-3">
+                        <label for="id_username">Имя пользователя</label>
+                        <input type="text" name="username" class="form-control" id="id_username" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="id_first_name">Имя</label>
+                        <input type="text" name="first_name" class="form-control" id="id_first_name" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="id_last_name">Фамилия</label>
+                        <input type="text" name="last_name" class="form-control" id="id_last_name" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="id_email">Электронная почта</label>
+                        <input type="email" name="email" class="form-control" id="id_email" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="id_date_of_birth">Дата рождения</label>
+                        <input type="date" name="date_of_birth" class="form-control" id="id_date_of_birth" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="id_phone_number">Номер телефона</label>
+                        <input type="text" name="phone_number" class="form-control" id="id_phone_number" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="id_password1">Пароль</label>
+                        <input type="password" name="password1" class="form-control" id="id_password1" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="id_password2">Подтверждение пароля</label>
+                        <input type="password" name="password2" class="form-control" id="id_password2" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
