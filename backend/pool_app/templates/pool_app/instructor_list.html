@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <h2>Инструкторы</h2>
+        <ul>
+            {% for instructor in instructors %}
+                <li><a href="{% url 'pool_app:instructor_detail' pk=instructor.pk %}">{{ instructor.user.get_full_name }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

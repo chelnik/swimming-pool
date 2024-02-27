@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Отзывы</h2>
+    <ul>
+        {% for review in reviews %}
+        <li>
+            <strong>Автор:</strong> {{ review.author.username }}<br>
+            <strong>Рейтинг:</strong> {{ review.get_rating_display }}<br>
+            <strong>Комментарий:</strong> {{ review.comment }}<br>
+            <strong>Дата создания:</strong> {{ review.created_at|date:"Y-m-d
+            H:i" }}<br>
+            {% if review.instructor %}
+            <strong>На инструктора:</strong> {{
+            review.instructor.user.get_full_name }}
+            {% endif %}
+        </li>
+        {% empty %}
+        <li>Отзывы отсутствуют.</li>
+        {% endfor %}
+    </ul>
+</div>
+<div class="container">
+    <h3>Оставить отзыв</h3>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Отправить отзыв</button>
+    </form>
+</div>
+{% endblock %}

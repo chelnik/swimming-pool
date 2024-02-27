@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Отзывы на инструкторов</h2>
+    <ul>
+        {% for review in reviews %}
+        <li>
+            <strong>Инструктор:</strong> {{ review.instructor.user.get_full_name }}<br>
+            <strong>Автор:</strong> {{ review.author.username }}<br>
+            <strong>Рейтинг:</strong> {{ review.get_rating_display }}<br>
+            <strong>Комментарий:</strong> {{ review.comment }}<br>
+            <strong>Дата:</strong> {{ review.created_at|date:"d.m.Y H:i" }}<br>
+        </li>
+        {% empty %}
+        <li>Отзывов пока нет.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

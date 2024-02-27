@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <h2>{{ instructor.user.get_full_name }}</h2>
+        <p>{{ instructor.bio }}</p>
+        <p>Квалификация: {{ instructor.qualifications }}</p>
+        <a href="{% url 'pool_app:add_instructor_review' instructor_id=instructor.pk %}">Оставить отзыв</a>
+    </div>
+{% endblock %}
