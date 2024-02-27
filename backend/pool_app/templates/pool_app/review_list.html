@@ -9,8 +9,7 @@
             <strong>Автор:</strong> {{ review.author.username }}<br>
             <strong>Рейтинг:</strong> {{ review.get_rating_display }}<br>
             <strong>Комментарий:</strong> {{ review.comment }}<br>
-            <strong>Дата создания:</strong> {{ review.created_at|date:"Y-m-d
-            H:i" }}<br>
+            <strong>Дата создания:</strong> {{ review.created_at|date:"Y-m-d H:i" }}<br>
             {% if review.instructor %}
             <strong>На инструктора:</strong> {{
             review.instructor.user.get_full_name }}

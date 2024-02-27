@@ -1,12 +1,14 @@
 from datetime import date
 
-from django.contrib.auth import login, logout
+from django.contrib.auth import login, logout, get_user_model
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
 from .forms import UserCustomForm
 
+
+User = get_user_model()
 
 def register_view(request):
     if request.method == 'POST':
@@ -47,9 +49,8 @@ def user_detail(request):
     if user.date_of_birth:
         today = date.today()
         age = (
-                today.year - user.date_of_birth.year -
-               ((today.month, today.day) < (user.date_of_birth.month,
-                                            user.date_of_birth.day))
+            today.year - user.date_of_birth.year -
+            ((today.month, today.day) < (user.date_of_birth.month, user.date_of_birth.day))
         )
 
     if request.method == 'POST':
@@ -60,8 +61,14 @@ def user_detail(request):
     else:
         form = UserCustomForm(instance=user)
 
-    return render(request, 'users/user_detail.html', {
+    context = {
         'form': form,
         'age': age,
-        'is_detail_view': True
-    })
+        'is_detail_view': True,
+    }
+
+    if user.is_staff:
+        users = User.objects.all()
+        context['users'] = users
+
+    return render(request, 'users/user_detail.html', context)
