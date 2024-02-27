@@ -24,7 +24,7 @@ def review_list(request):
             review.save()
             return redirect('pool_app:review_list')
     else:
-        form = InstructorReviewForm()
+        form = PoolReviewForm()
     reviews = PoolReview.objects.all()
     return render(request, 'pool_app/review_list.html', {
         'reviews': reviews,
