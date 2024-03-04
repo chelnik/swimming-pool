@@ -11,6 +11,7 @@ class Instructor(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField()
     qualifications = models.CharField(max_length=255)
+    photo = models.ImageField(upload_to='instruct_img/', blank=True, null=True)
 
     def __str__(self):
         return self.user.get_full_name()

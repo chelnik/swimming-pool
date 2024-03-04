@@ -6,13 +6,14 @@ from .models import Instructor, Lesson, InstructorReview, PoolReview, PoolPass
 
 @admin.register(Instructor)
 class InstructorAdmin(admin.ModelAdmin):
-    list_display = ('user', 'bio', 'qualifications')
+    list_display = ('user', 'bio', 'qualifications', 'photo')
     search_fields = ('user__username', 'bio')
 
 
 @admin.register(Lesson)
 class LessonAdmin(admin.ModelAdmin):
-    list_display = ('title', 'instructor', 'start_time', 'end_time', 'description')
+    list_display = ('title', 'instructor', 'start_time', 'end_time',
+                    'description')
     list_filter = ('instructor', 'start_time')
     search_fields = ('title', 'description')
 
@@ -33,7 +34,8 @@ class PoolReviewAdmin(admin.ModelAdmin):
 
 @admin.register(PoolPass)
 class PoolPassAdmin(admin.ModelAdmin):
-    list_display = ('owner', 'pass_type', 'start_date', 'end_date', 'is_active')
+    list_display = ('owner', 'pass_type', 'start_date', 'end_date',
+                    'is_active')
     list_editable = ('is_active',)
 
 
