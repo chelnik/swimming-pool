@@ -1,5 +1,7 @@
 from django.contrib import admin
-from .models import Instructor, Lesson, InstructorReview, PoolReview
+from django.contrib.auth.models import Group
+
+from .models import Instructor, Lesson, InstructorReview, PoolReview, PoolPass
 
 
 @admin.register(Instructor)
@@ -27,3 +29,12 @@ class PoolReviewAdmin(admin.ModelAdmin):
     list_display = ('author', 'rating', 'comment', 'created_at')
     list_filter = ('rating', 'created_at')
     search_fields = ('comment',)
+
+
+@admin.register(PoolPass)
+class PoolPassAdmin(admin.ModelAdmin):
+    list_display = ('owner', 'pass_type', 'start_date', 'end_date', 'is_active')
+    list_editable = ('is_active',)
+
+
+admin.site.unregister(Group)

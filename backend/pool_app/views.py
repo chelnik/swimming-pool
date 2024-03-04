@@ -1,12 +1,18 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 
-from .forms import InstructorReviewForm, PoolReviewForm
-from .models import Instructor, Lesson, PoolReview, InstructorReview
+from .forms import InstructorReviewForm, PoolReviewForm, PoolPassForm
+from .models import Instructor, Lesson, PoolReview, InstructorReview, PoolPass
 
 
 def index(request):
-    return render(request, 'pool_app/index.html')
+    has_active_pass = False
+    if request.user.is_authenticated:
+        has_active_pass = PoolPass.objects.filter(owner=request.user,
+                                                  is_active=True).exists()
+
+    return render(request, 'pool_app/index.html',
+                  {'has_active_pass': has_active_pass})
 
 
 def instructor_review_list(request):
@@ -85,4 +91,20 @@ def add_pool_review(request):
     else:
         form = PoolReviewForm()
     return render(request, 'pool_app/add_pool_review.html',
+                  {'form': form})
+
+
+@login_required
+def buy_pool_pass(request):
+    if request.method == 'POST':
+        form = PoolPassForm(request.POST)
+        if form.is_valid():
+            pool_pass = form.save(commit=False)
+            pool_pass.owner = request.user
+            pool_pass.is_active = True
+            pool_pass.save()
+            return redirect('users:user_detail')
+    else:
+        form = PoolPassForm()
+    return render(request, 'pool_app/buy_pool_pass.html',
                   {'form': form})

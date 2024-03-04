@@ -35,6 +35,11 @@
       </ul>
       <ul class="navbar-nav ms-auto">
         {% if user.is_authenticated %}
+        {% if not user.active_pool_pass %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'pool_app:buy_pool_pass' %}">Купить абонемент</a>
+            </li>
+        {% endif %}
         <li class="nav-item">
           <a class="nav-link" href="{% url 'users:user_detail' %}">Мой профиль</a>
         </li>

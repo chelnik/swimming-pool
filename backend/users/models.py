@@ -18,6 +18,10 @@ class User(AbstractUser):
                                     unique=True, blank=False, null=False)
 
     @property
+    def active_pool_pass(self):
+        return self.poolpass_set.filter(is_active=True).first()
+
+    @property
     def age(self):
         if self.date_of_birth is not None:
             today = date.today()

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form method="post" id="poolPassForm">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <p id="priceDisplay">Цена: </p>
+    <button type="submit" class="btn btn-primary">Купить</button>
+</form>
+
+<script type="text/javascript">
+    // Функция для обновления цены
+    function updatePrice() {
+        var type = document.getElementById('id_pass_type').value; // Получаем выбранный тип абонемента
+        var price = 0;
+        if (type === 'monthly') {
+            price = 1000;
+        } else if (type === 'quarterly') {
+            price = 2000;
+        } else if (type === 'yearly') {
+            price = 5000;
+        }
+        document.getElementById('priceDisplay').textContent = 'Цена: ' + price + ' руб.'; // Обновляем текст с ценой
+    }
+
+    // Слушаем изменения в поле выбора типа абонемента
+    document.getElementById('id_pass_type').addEventListener('change', updatePrice);
+
+    // Обновляем цену при инициализации
+    updatePrice();
+</script>
+{% endblock %}

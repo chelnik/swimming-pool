@@ -1,5 +1,5 @@
 from datetime import date
-
+from django.apps import apps
 from django.contrib.auth import login, logout, get_user_model
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
@@ -9,6 +9,7 @@ from .forms import UserCustomForm
 
 
 User = get_user_model()
+
 
 def register_view(request):
     if request.method == 'POST':
@@ -44,13 +45,28 @@ def logout_view(request):
 @login_required
 def user_detail(request):
     user = request.user
+    pool_pass = apps.get_model('pool_app', 'PoolPass')
+    pool_pass = pool_pass.objects.filter(owner=user, is_active=True).first()
     age = None
+
+    if user.active_pool_pass:
+        user.active_pool_pass.check_activation()
+
+
+    if user.date_of_birth:
+        today = date.today()
+        age = (
+                today.year - user.date_of_birth.year -
+                ((today.month, today.day) < (user.date_of_birth.month,
+                                             user.date_of_birth.day))
+        )
 
     if user.date_of_birth:
         today = date.today()
         age = (
             today.year - user.date_of_birth.year -
-            ((today.month, today.day) < (user.date_of_birth.month, user.date_of_birth.day))
+            ((today.month, today.day) < (user.date_of_birth.month,
+                                         user.date_of_birth.day))
         )
 
     if request.method == 'POST':
@@ -65,6 +81,7 @@ def user_detail(request):
         'form': form,
         'age': age,
         'is_detail_view': True,
+        'pool_pass': pool_pass,
     }
 
     if user.is_staff:

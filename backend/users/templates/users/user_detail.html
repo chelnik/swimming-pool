@@ -47,6 +47,27 @@
         <div class="row">
             <div class="col-md-6 offset-md-3">
                 <h2 class="mb-4">Детали профиля</h2>
+                {% if pool_pass %}
+                <h3>Активный абонемент</h3>
+                <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">№</th>
+                    <th scope="col">Тип</th>
+                    <th scope="col">Куплен</th>
+                    <th scope="col">Заканчивается</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th scope="row">{{ pool_pass.pk }}</th>
+                    <td>{{ pool_pass.get_pass_type_display }}</td>
+                    <td>{{ pool_pass.start_date }}</td>
+                    <td>{{ pool_pass.end_date }}</td>
+                </tr>
+                </tbody>
+            </table>
+            {% endif %}
                 <form method="post">
                     {% csrf_token %}
                     <div class="form-group mb-3">
