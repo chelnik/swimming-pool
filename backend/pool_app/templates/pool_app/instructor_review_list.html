@@ -1,20 +1,26 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container">
+<div class="container mt-3 mb-5">
     <h2>Отзывы на инструкторов</h2>
-    <ul>
+    {% if reviews %}
+    <div class="list-group">
         {% for review in reviews %}
-        <li>
-            <strong>Инструктор:</strong> {{ review.instructor.user.get_full_name }}<br>
-            <strong>Автор:</strong> {{ review.author.username }}<br>
-            <strong>Рейтинг:</strong> {{ review.get_rating_display }}<br>
-            <strong>Комментарий:</strong> {{ review.comment }}<br>
-            <strong>Дата:</strong> {{ review.created_at|date:"d.m.Y H:i" }}<br>
-        </li>
+        <a href="#" class="list-group-item list-group-item-action" aria-current="true">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">Инструктор: {{ review.instructor.user.get_full_name }}</h5>
+                <small>Дата: {{ review.created_at|date:"d.m.Y H:i" }}</small>
+            </div>
+            <p class="mb-1">Комментарий: {{ review.comment }}</p>
+            <small>Автор: {{ review.author.username }}</small><br>
+            <small>Рейтинг: {{ review.get_rating_display }}</small>
+        </a>
         {% empty %}
-        <li>Отзывов пока нет.</li>
+        <div class="list-group-item">Отзывов пока нет.</div>
         {% endfor %}
-    </ul>
+    </div>
+    {% else %}
+    <p>Отзывов пока нет.</p>
+    {% endif %}
 </div>
 {% endblock %}

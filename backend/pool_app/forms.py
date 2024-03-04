@@ -6,7 +6,7 @@ from .models import InstructorReview, PoolReview, PoolPass, Lesson
 class InstructorReviewForm(forms.ModelForm):
     class Meta:
         model = InstructorReview
-        fields = ['instructor', 'rating', 'comment']
+        fields = ['rating', 'comment']
 
 
 class PoolReviewForm(forms.ModelForm):

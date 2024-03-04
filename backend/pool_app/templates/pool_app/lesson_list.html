@@ -1,20 +1,26 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container">
+<div class="container mt-3 mb-5">
     <h2>Занятия</h2>
     {% if lessons %}
-    <ul>
+    <div class="row">
         {% for lesson in lessons %}
-        <li>
-            <strong>Название:</strong> <a href="{% url 'pool_app:lesson_detail' pk=lesson.pk %}">{{ lesson.title }}</a><br>
-            <strong>Инструктор:</strong> {{ lesson.instructor.user.get_full_name }}<br>
-            <strong>Время начала:</strong> {{ lesson.start_time|date:"d.m.Y H:i" }}<br>
-            <strong>Время окончания:</strong> {{ lesson.end_time|date:"d.m.Y H:i" }}<br>
-            <strong>Описание:</strong> {{ lesson.description|truncatewords:20 }}<br>
-        </li>
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"><a href="{% url 'pool_app:lesson_detail' pk=lesson.pk %}">{{ lesson.title }}</a></h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Инструктор: {{ lesson.instructor.user.get_full_name }}</h6>
+                    <p class="card-text">{{ lesson.description|truncatewords:20 }}</p>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Начало: {{ lesson.start_time|date:"d.m.Y H:i" }}</li>
+                        <li class="list-group-item">Окончание: {{ lesson.end_time|date:"d.m.Y H:i" }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
         {% endfor %}
-    </ul>
+    </div>
     {% else %}
     <p>Занятий пока нет.</p>
     {% endif %}

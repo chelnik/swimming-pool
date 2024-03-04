@@ -4,12 +4,43 @@
 <div class="container mt-4">
     <h2 class="text-center">Добро пожаловать в бассейн "Луч"!</h2>
     <p class="lead text-center">Отличное место для занятий плаванием и релаксации.</p>
-    <div class="d-flex justify-content-center">
-        <img src="https://bassein-moscow.ru/assets/images/fast_img/316/316-t42nr8.jpg" alt="Описание изображения" class="img-fluid">
+    <div class="row mb-4">
+        <div class="col-md-6 d-flex align-items-center justify-content-center">
+            <img src="https://bassein-moscow.ru/assets/images/fast_img/316/316-t42nr8.jpg" alt="Бассейн Луч" class="img-fluid">
+        </div>
+        <div class="col-md-6">
+            <h3>Почему выбирают нас?</h3>
+            <ul>
+                <li>Профессиональные тренеры с многолетним опытом.</li>
+                <li>Индивидуальный подход к каждому клиенту.</li>
+                <li>Современное оборудование и комфортные условия.</li>
+            </ul>
+            <a href="{% url 'pool_app:lesson_list' %}" class="btn btn-primary">Записаться на занятие</a>
+        </div>
     </div>
-    <p class="text-center">У нас имеется просторный внутренний бассейн для занятий в любое время года.</p>
 
-    <h3 class="text-center">Внутренний бассейн</h3>
-    <p class="text-center">Идеальное место для занятий плаванием в любое время года.</p>
+    <h3 class="text-center mb-4">Отзывы наших клиентов</h3>
+    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <blockquote class="blockquote text-center">
+                    <p class="mb-3">Благодаря тренерам бассейна "Луч" я научился плавать за 2 месяца!</p>
+                    <footer class="blockquote-footer">Алексей Иванов</footer>
+                </blockquote>
+            </div>
+            <div class="carousel-item">
+                <blockquote class="blockquote text-center">
+                    <p class="mb-3">Прекрасное место для восстановления после рабочего дня!</p>
+                    <footer class="blockquote-footer">Мария Семенова</footer>
+                </blockquote>
+            </div>
+<!--             тут можно добавить отзывы по шаблону carousel-item -->
+        </div>
+
+    </div>
+
+    <div class="text-center mt-4 mb-5">
+        <a href="{% url 'pool_app:instructor_list' %}" class="btn btn-info">Познакомиться с тренерами</a>
+    </div>
 </div>
 {% endblock %}

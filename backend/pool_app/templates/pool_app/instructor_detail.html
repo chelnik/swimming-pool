@@ -1,17 +1,21 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container">
+<div class="container mt-3 mb-5">
     <h2>{{ instructor.user.get_full_name }}</h2>
-    {% if instructor.photo %}
-    <img src="{{ instructor.photo.url }}"
-         alt="Фото {{ instructor.user.get_full_name }}">
-    {% else %}
-    <p>Фотография не загружена.</p>
-    {% endif %}
-    <p>{{ instructor.bio }}</p>
-    <p>Квалификация: {{ instructor.qualifications }}</p>
-    <a href="{% url 'pool_app:add_instructor_review' instructor_id=instructor.pk %}">Оставить
-        отзыв</a>
+    <div class="row">
+        <div class="col-md-4">
+            {% if instructor.photo %}
+            <img src="{{ instructor.photo.url }}" alt="Фото {{ instructor.user.get_full_name }}" class="img-fluid">
+            {% else %}
+            <p>Фотография не загружена.</p>
+            {% endif %}
+        </div>
+        <div class="col-md-8">
+            <p>{{ instructor.bio }}</p>
+            <p>Квалификация: {{ instructor.qualifications }}</p>
+            <a href="{% url 'pool_app:add_instructor_review' instructor_id=instructor.pk %}" class="btn btn-primary">Оставить отзыв</a>
+        </div>
+    </div>
 </div>
 {% endblock %}
