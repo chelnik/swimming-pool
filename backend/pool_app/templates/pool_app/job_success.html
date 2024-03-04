@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-3 text-center">
+    <h2>Спасибо за ваш отклик!</h2>
+    <p class="mt-3">Мы рассмотрим вашу заявку и свяжемся с вами.</p>
+    <a href="{% url 'pool_app:job_list' %}" class="btn btn-primary mt-3">Вернуться к списку вакансий</a>
+</div>
+{% endblock %}

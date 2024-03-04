@@ -3,9 +3,10 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 
 from backend.settings import MAX_VISITORS_ON_LESSON
-from .forms import InstructorReviewForm, PoolReviewForm, PoolPassForm
+from .forms import InstructorReviewForm, PoolReviewForm, PoolPassForm, \
+    JobApplicationForm
 from .models import Instructor, Lesson, PoolReview, InstructorReview, PoolPass, \
-    Post
+    Post, Job
 
 
 def index(request):
@@ -69,7 +70,6 @@ def lesson_detail(request, pk):
     }
 
     if request.method == 'POST':
-        # Предположим, что это действие для записи на занятие.
         if not is_user_signed_up:
             lesson.participants.add(request.user)
     return render(request, 'pool_app/lesson_detail.html', context)
@@ -152,3 +152,25 @@ def post_list(request):
     posts = Post.objects.all()
     return render(request, 'pool_app/post_list.html',
                   {'posts': posts})
+
+
+def job_list(request):
+    jobs = Job.objects.all()
+    return render(request, 'pool_app/job_list.html',
+                  {'jobs': jobs})
+
+
+def apply_for_job(request):
+    if request.method == 'POST':
+        form = JobApplicationForm(request.POST)
+        if form.is_valid():
+            print(form.data)
+            return redirect('pool_app:job_success')
+    else:
+        form = JobApplicationForm()
+    return render(request, 'pool_app/apply_for_job.html',
+                  {'form': form})
+
+
+def job_success(request):
+    return render(request, 'pool_app/job_success.html')

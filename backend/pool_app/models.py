@@ -148,3 +148,17 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Job(models.Model):
+    title = models.CharField(max_length=255, verbose_name="Название")
+    description = models.TextField(verbose_name="Описание")
+    published_date = models.DateTimeField(auto_now_add=True, verbose_name="Дата публикации")
+
+    class Meta:
+        verbose_name = 'Вакансия'
+        verbose_name_plural = 'Вакансии'
+        ordering = ['-published_date']
+
+    def __str__(self):
+        return self.title

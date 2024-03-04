@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.models import Group
 
 from .models import (Instructor, Lesson, InstructorReview, PoolReview,
-                     PoolPass, Post)
+                     PoolPass, Post, Job)
 
 
 @admin.register(Instructor)
@@ -45,6 +45,12 @@ class PostAdmin(admin.ModelAdmin):
     list_display = ('image', 'title', 'author', 'published_date')
     list_filter = ('author', 'published_date')
     search_fields = ('title', 'content')
+
+
+@admin.register(Job)
+class JobAdmin(admin.ModelAdmin):
+    list_display = ('title', 'description', 'published_date')
+    list_filter = ('published_date',)
 
 
 admin.site.unregister(Group)

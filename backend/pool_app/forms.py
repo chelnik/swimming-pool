@@ -25,3 +25,9 @@ class LessonSignUpForm(forms.ModelForm):
     class Meta:
         model = Lesson
         fields = []
+
+
+class JobApplicationForm(forms.Form):
+    name = forms.CharField(label="Ваше имя", max_length=100)
+    email = forms.EmailField(label="Ваш Email")
+    message = forms.CharField(label="Сообщение", widget=forms.Textarea)

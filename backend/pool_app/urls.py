@@ -2,8 +2,9 @@ from django.urls import path
 
 from .views import (instructor_list, lesson_list, instructor_detail,
                     lesson_detail, add_instructor_review, post_list,
-                    index, add_pool_review, review_list,
-                    instructor_review_list, buy_pool_pass, sign_up_for_lesson)
+                    index, add_pool_review, review_list, apply_for_job,
+                    instructor_review_list, buy_pool_pass, sign_up_for_lesson,
+                    job_list, job_success)
 
 app_name = 'pool_app'
 
@@ -24,4 +25,7 @@ urlpatterns = [
          name='instructor_review_list'),
     path('buy_pass', buy_pool_pass, name='buy_pool_pass'),
     path('posts/', post_list, name='post_list'),
+    path('jobs/apply/', apply_for_job, name='apply_for_job'),
+    path('jobs/success/', job_success, name='job_success'),
+    path('jobs/', job_list, name='job_list'),
 ]

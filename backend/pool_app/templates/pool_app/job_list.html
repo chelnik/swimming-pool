@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-3">
+    <h2 class="mb-4">Вакансии</h2>
+    <div class="row">
+    {% for job in jobs %}
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ job.title }}</h5>
+                    <p class="card-text">{{ job.description|truncatewords:30 }}</p>
+                    <a href="{% url 'pool_app:apply_for_job' %}" class="btn btn-primary">Откликнуться</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+</div>
+{% endblock %}
