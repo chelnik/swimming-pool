@@ -31,7 +31,11 @@
                     <td>{{ user.date_of_birth|date:"d.m.Y" }}</td>
                     <td>{{ user.phone_number }}</td>
                     <td>{{ user.age }}</td>
+                    {% if user.active_pool_pass %}
                     <td>{{ user.active_pool_pass }}</td>
+                    {% else %}
+                    <td> - </td>
+                    {% endif %}
                 </tr>
                 {% endfor %}
             </tbody>
