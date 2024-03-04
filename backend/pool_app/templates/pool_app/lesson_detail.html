@@ -8,7 +8,13 @@
         <p>Время начала: {{ lesson.start_time }}</p>
         <p>Время окончания: {{ lesson.end_time }}</p>
     </div>
-
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
     {% if not is_user_signed_up %}
         <form method="post" action="{% url 'pool_app:sign_up_for_lesson' lesson.id %}">
 
