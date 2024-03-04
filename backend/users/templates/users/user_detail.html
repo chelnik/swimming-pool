@@ -103,6 +103,21 @@
             </div>
         </div>
     </div>
+<h3>Занятия, на которые вы записаны:</h3>
+{% if signed_up_lessons %}
+    <ul>
+        {% for lesson in signed_up_lessons %}
+            <li>
+                <strong>{{ lesson.title }}</strong> (Инструктор: {{ lesson.instructor.user.get_full_name }}) <br>
+                Время начала: {{ lesson.start_time }} <br>
+                Время окончания: {{ lesson.end_time }} <br>
+                Описание: {{ lesson.description }} <br>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Вы пока не записаны ни на одно занятие.</p>
+{% endif %}
 {% endif %}
 
 {% endblock %}

@@ -1,6 +1,8 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 
+from backend.settings import MAX_VISITORS_ON_LESSON
 from .forms import InstructorReviewForm, PoolReviewForm, PoolPassForm
 from .models import Instructor, Lesson, PoolReview, InstructorReview, PoolPass
 
@@ -58,8 +60,18 @@ def instructor_detail(request, pk):
 
 def lesson_detail(request, pk):
     lesson = get_object_or_404(Lesson, pk=pk)
-    return render(request, 'pool_app/lesson_detail.html',
-                  {'lesson': lesson})
+    is_user_signed_up = lesson.participants.filter(id=request.user.id).exists()
+
+    context = {
+        'lesson': lesson,
+        'is_user_signed_up': is_user_signed_up,
+    }
+
+    if request.method == 'POST':
+        # Предположим, что это действие для записи на занятие.
+        if not is_user_signed_up:
+            lesson.participants.add(request.user)
+    return render(request, 'pool_app/lesson_detail.html', context)
 
 
 @login_required
@@ -108,3 +120,38 @@ def buy_pool_pass(request):
         form = PoolPassForm()
     return render(request, 'pool_app/buy_pool_pass.html',
                   {'form': form})
+
+
+@login_required
+def sign_up_for_lesson(request, lesson_id):
+    lesson = get_object_or_404(Lesson, id=lesson_id)
+    user = request.user
+    pool_pass = user.pool_pass.filter(is_active=True).first()
+
+    if request.method == 'POST':
+        # Так как мы здесь, значит запрос точно POST
+        if pool_pass:
+            # Проверяем, записан ли уже пользователь на занятие
+            if not lesson.participants.filter(id=user.id).exists():
+                # Проверяем, не превышен ли лимит участников
+                if lesson.participants.count() < MAX_VISITORS_ON_LESSON:
+                    lesson.participants.add(user)
+                    # Пользователь успешно записан, отправляем сообщение об успехе
+                    messages.success(request, "Вы успешно записались на занятие!")
+                    return redirect('pool_app:lesson_detail', pk=lesson_id)
+                else:
+                    # Мест на занятие больше нет, отправляем соответствующее сообщение
+                    messages.error(request, "К сожалению, все места заняты.")
+            else:
+                # Пользователь уже записан на занятие
+                messages.error(request, "Вы уже записаны на это занятие.")
+        else:
+            # У пользователя нет активного абонемента, требуется для записи
+            messages.error(request, "Для записи на занятие необходим активный абонемент.")
+        # В случае любой ошибки делаем редирект обратно на страницу занятия
+        return redirect('pool_app:lesson_detail', pk=lesson_id)
+    else:
+        # Если метод запроса не POST, то также делаем редирект обратно
+        messages.info(request, "Пожалуйста, используйте форму для записи на занятие.")
+        return redirect('pool_app:lesson_detail', pk=lesson_id)
+

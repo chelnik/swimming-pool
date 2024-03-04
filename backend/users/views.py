@@ -45,13 +45,12 @@ def logout_view(request):
 @login_required
 def user_detail(request):
     user = request.user
-    pool_pass = apps.get_model('pool_app', 'PoolPass')
-    pool_pass = pool_pass.objects.filter(owner=user, is_active=True).first()
+    pool_pass = user.active_pool_pass
+    signed_up_lessons = user.lessons.all()
     age = None
 
     if user.active_pool_pass:
         user.active_pool_pass.check_activation()
-
 
     if user.date_of_birth:
         today = date.today()
@@ -82,6 +81,7 @@ def user_detail(request):
         'age': age,
         'is_detail_view': True,
         'pool_pass': pool_pass,
+        'signed_up_lessons': signed_up_lessons,
     }
 
     if user.is_staff:

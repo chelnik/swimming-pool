@@ -8,4 +8,15 @@
         <p>Время начала: {{ lesson.start_time }}</p>
         <p>Время окончания: {{ lesson.end_time }}</p>
     </div>
+
+    {% if not is_user_signed_up %}
+        <form method="post" action="{% url 'pool_app:sign_up_for_lesson' lesson.id %}">
+
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Записаться на занятие</button>
+        </form>
+    {% else %}
+        <p>Вы уже записаны на это занятие.</p>
+    {% endif %}
+
 {% endblock %}

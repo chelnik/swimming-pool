@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import InstructorReview, PoolReview, PoolPass
+from .models import InstructorReview, PoolReview, PoolPass, Lesson
 
 
 class InstructorReviewForm(forms.ModelForm):
@@ -19,3 +19,9 @@ class PoolPassForm(forms.ModelForm):
     class Meta:
         model = PoolPass
         fields = ['pass_type']
+
+
+class LessonSignUpForm(forms.ModelForm):
+    class Meta:
+        model = Lesson
+        fields = []

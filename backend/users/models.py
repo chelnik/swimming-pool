@@ -19,7 +19,7 @@ class User(AbstractUser):
 
     @property
     def active_pool_pass(self):
-        return self.poolpass_set.filter(is_active=True).first()
+        return self.pool_pass.filter(is_active=True).first()
 
     @property
     def age(self):

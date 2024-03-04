@@ -129,3 +129,5 @@ AUTH_USER_MODEL = 'users.User'
 LOGIN_REDIRECT_URL = 'index'
 
 LOGIN_URL = 'users:login'
+
+MAX_VISITORS_ON_LESSON = 10
