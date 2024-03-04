@@ -19,6 +19,7 @@
                     <th scope="col">Дата рождения</th>
                     <th scope="col">Номер телефона</th>
                     <th scope="col">Возраст</th>
+                    <th scope="col">Абонемент</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -32,6 +33,11 @@
                     <td>{{ user.date_of_birth|date:"d.m.Y" }}</td>
                     <td>{{ user.phone_number }}</td>
                     <td>{{ user.age }}</td>
+                    {% if user.active_pool_pass %}
+                    <td>{{ user.active_pool_pass }}</td>
+                    {% else %}
+                    <td> -</td>
+                    {% endif %}
                 </tr>
                 {% endfor %}
                 </tbody>
@@ -44,12 +50,12 @@
 </div>
 {% else %}
 <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-6 offset-md-3">
-                <h2 class="mb-4">Детали профиля</h2>
-                {% if pool_pass %}
-                <h3>Активный абонемент</h3>
-                <table class="table">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h2 class="mb-4">Детали профиля</h2>
+            {% if pool_pass %}
+            <h3>Активный абонемент</h3>
+            <table class="table">
                 <thead>
                 <tr>
                     <th scope="col">№</th>
@@ -68,55 +74,70 @@
                 </tbody>
             </table>
             {% endif %}
-                <form method="post">
-                    {% csrf_token %}
-                    <div class="form-group mb-3">
-                        <label for="id_username">{{ form.username.label }}</label>
-                        <input type="text" name="username" class="form-control" id="id_username" required value="{{ form.username.value|default_if_none:'' }}">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="id_first_name">{{ form.first_name.label }}</label>
-                        <input type="text" name="first_name" class="form-control" id="id_first_name" required value="{{ form.first_name.value|default_if_none:'' }}">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="id_last_name">{{ form.last_name.label }}</label>
-                        <input type="text" name="last_name" class="form-control" id="id_last_name" required value="{{ form.last_name.value|default_if_none:'' }}">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="id_email">{{ form.email.label }}</label>
-                        <input type="email" name="email" class="form-control" id="id_email" required value="{{ form.email.value|default_if_none:'' }}">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label>Дата рождения</label>
-                        <input type="text" class="form-control" value="{{ user.date_of_birth }}" readonly>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="id_phone_number">{{ form.phone_number.label }}</label>
-                        <input type="text" name="phone_number" class="form-control" id="id_phone_number" required value="{{ form.phone_number.value|default_if_none:'' }}">
-                    </div>
-                    <div class="form-group mb-3">
-                        <label>Возраст</label>
-                        <input type="text" class="form-control" value="{{ age }}" readonly>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Сохранить изменения</button>
-                </form>
-            </div>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group mb-3">
+                    <label for="id_username">{{ form.username.label }}</label>
+                    <input type="text" name="username" class="form-control"
+                           id="id_username" required
+                           value="{{ form.username.value|default_if_none:'' }}">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="id_first_name">{{ form.first_name.label }}</label>
+                    <input type="text" name="first_name" class="form-control"
+                           id="id_first_name" required
+                           value="{{ form.first_name.value|default_if_none:'' }}">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="id_last_name">{{ form.last_name.label }}</label>
+                    <input type="text" name="last_name" class="form-control"
+                           id="id_last_name" required
+                           value="{{ form.last_name.value|default_if_none:'' }}">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="id_email">{{ form.email.label }}</label>
+                    <input type="email" name="email" class="form-control"
+                           id="id_email" required
+                           value="{{ form.email.value|default_if_none:'' }}">
+                </div>
+                <div class="form-group mb-3">
+                    <label>Дата рождения</label>
+                    <input type="text" class="form-control"
+                           value="{{ user.date_of_birth }}" readonly>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="id_phone_number">{{ form.phone_number.label }}</label>
+                    <input type="text" name="phone_number" class="form-control"
+                           id="id_phone_number" required
+                           value="{{ form.phone_number.value|default_if_none:'' }}">
+                </div>
+                <div class="form-group mb-3">
+                    <label>Возраст</label>
+                    <input type="text" class="form-control" value="{{ age }}"
+                           readonly>
+                </div>
+                <button type="submit" class="btn btn-primary">Сохранить
+                    изменения
+                </button>
+            </form>
         </div>
     </div>
+</div>
 <h3>Занятия, на которые вы записаны:</h3>
 {% if signed_up_lessons %}
-    <ul>
-        {% for lesson in signed_up_lessons %}
-            <li>
-                <strong>{{ lesson.title }}</strong> (Инструктор: {{ lesson.instructor.user.get_full_name }}) <br>
-                Время начала: {{ lesson.start_time }} <br>
-                Время окончания: {{ lesson.end_time }} <br>
-                Описание: {{ lesson.description }} <br>
-            </li>
-        {% endfor %}
-    </ul>
+<ul>
+    {% for lesson in signed_up_lessons %}
+    <li>
+        <strong>{{ lesson.title }}</strong> (Инструктор:
+        {{ lesson.instructor.user.username }}) <br>
+        Время начала: {{ lesson.start_time }} <br>
+        Время окончания: {{ lesson.end_time }} <br>
+        Описание: {{ lesson.description }} <br>
+    </li>
+    {% endfor %}
+</ul>
 {% else %}
-    <p>Вы пока не записаны ни на одно занятие.</p>
+<p>Вы пока не записаны ни на одно занятие.</p>
 {% endif %}
 {% endif %}
 

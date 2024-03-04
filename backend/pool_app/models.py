@@ -90,7 +90,8 @@ class PoolPass(models.Model):
     )
 
     owner = models.ForeignKey(User, on_delete=models.CASCADE,
-                              verbose_name='Владелец', related_name='pool_pass')
+                              verbose_name='Владелец',
+                              related_name='pool_pass')
     pass_type = models.CharField(max_length=10, choices=TYPE_CHOICES,
                                  default='monthly',
                                  verbose_name='Тип абонемента')
@@ -125,5 +126,5 @@ class PoolPass(models.Model):
             self.save()
 
     def __str__(self):
-        return (f"Абонемент: {self.pk}-{self.get_pass_type_display()}\n"
-                f"годен до {self.end_date}")
+        return (f"№ {self.pk}. годен до {self.end_date}\n"
+                f"({self.get_pass_type_display()})")

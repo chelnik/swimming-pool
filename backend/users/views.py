@@ -5,6 +5,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
+from pool_app.models import PoolPass
 from .forms import UserCustomForm
 
 
@@ -79,9 +80,8 @@ def user_detail(request):
     context = {
         'form': form,
         'age': age,
-        'is_detail_view': True,
         'pool_pass': pool_pass,
-        'signed_up_lessons': signed_up_lessons,
+        'signed_up_lessons': signed_up_lessons
     }
 
     if user.is_staff:
