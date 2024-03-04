@@ -1,10 +1,9 @@
 from django.urls import path
 
 from .views import (instructor_list, lesson_list, instructor_detail,
-                    lesson_detail, add_instructor_review,
+                    lesson_detail, add_instructor_review, post_list,
                     index, add_pool_review, review_list,
-                    instructor_review_list, buy_pool_pass, sign_up_for_lesson
-                    )
+                    instructor_review_list, buy_pool_pass, sign_up_for_lesson)
 
 app_name = 'pool_app'
 
@@ -21,6 +20,8 @@ urlpatterns = [
          name='add_instructor_review'),
     path('add_pool_review/', add_pool_review, name='add_pool_review'),
     path('review/', review_list, name='review_list'),
-    path('instructor-review/', instructor_review_list, name='instructor_review_list'),
-    path('buy_pass', buy_pool_pass, name='buy_pool_pass')
+    path('instructor-review/', instructor_review_list,
+         name='instructor_review_list'),
+    path('buy_pass', buy_pool_pass, name='buy_pool_pass'),
+    path('posts/', post_list, name='post_list'),
 ]

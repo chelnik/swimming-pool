@@ -1,7 +1,8 @@
 from django.contrib import admin
 from django.contrib.auth.models import Group
 
-from .models import Instructor, Lesson, InstructorReview, PoolReview, PoolPass
+from .models import (Instructor, Lesson, InstructorReview, PoolReview,
+                     PoolPass, Post)
 
 
 @admin.register(Instructor)
@@ -37,6 +38,13 @@ class PoolPassAdmin(admin.ModelAdmin):
     list_display = ('owner', 'pass_type', 'start_date', 'end_date',
                     'is_active')
     list_editable = ('is_active',)
+
+
+@admin.register(Post)
+class PostAdmin(admin.ModelAdmin):
+    list_display = ('image', 'title', 'author', 'published_date')
+    list_filter = ('author', 'published_date')
+    search_fields = ('title', 'content')
 
 
 admin.site.unregister(Group)

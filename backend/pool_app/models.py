@@ -129,3 +129,22 @@ class PoolPass(models.Model):
     def __str__(self):
         return (f"№ {self.pk}. годен до {self.end_date}\n"
                 f"({self.get_pass_type_display()})")
+
+
+class Post(models.Model):
+    title = models.CharField(max_length=255, verbose_name="Заголовок")
+    content = models.TextField(verbose_name="Содержание")
+    published_date = models.DateTimeField(auto_now_add=True,
+                                          verbose_name="Дата публикации")
+    author = models.ForeignKey(User, on_delete=models.CASCADE,
+                               verbose_name="Автор")
+    image = models.ImageField(upload_to='posts_images/', blank=True, null=True,
+                              verbose_name="Изображение")
+
+    class Meta:
+        verbose_name = 'Пост'
+        verbose_name_plural = 'Посты'
+        ordering = ['-published_date']
+
+    def __str__(self):
+        return self.title

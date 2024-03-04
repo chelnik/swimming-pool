@@ -4,7 +4,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 
 from backend.settings import MAX_VISITORS_ON_LESSON
 from .forms import InstructorReviewForm, PoolReviewForm, PoolPassForm
-from .models import Instructor, Lesson, PoolReview, InstructorReview, PoolPass
+from .models import Instructor, Lesson, PoolReview, InstructorReview, PoolPass, \
+    Post
 
 
 def index(request):
@@ -146,3 +147,8 @@ def sign_up_for_lesson(request, lesson_id):
         messages.info(request, "Пожалуйста, используйте форму для записи на занятие.")
         return redirect('pool_app:lesson_detail', pk=lesson_id)
 
+
+def post_list(request):
+    posts = Post.objects.all()
+    return render(request, 'pool_app/post_list.html',
+                  {'posts': posts})
