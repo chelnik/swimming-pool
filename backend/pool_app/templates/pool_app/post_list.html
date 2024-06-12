@@ -7,7 +7,7 @@
       {% for post in posts %}
         <div class="post">
           <h3>{{ post.title }}</h3>
-          <p>{{ post.content|truncatewords:30 }}</p>
+          <p>{{ post.content }}</p>
           <p><small>Автор: {{ post.author.username }}</small></p>
           <p><small>Дата публикации: {{ post.published_date }}</small></p>
           {% if post.image %}
